@@ -1,1 +1,17 @@
 @import 'src/styles/shared.scss';
+
+table {
+  width: 250px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}

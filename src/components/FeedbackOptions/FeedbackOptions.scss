@@ -1,0 +1,42 @@
+@import 'src/styles/shared.scss';
+
+button {
+  @extend %button;
+
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
+
+  &.good {
+    &:hover {
+      background-color: rgb(165, 255, 165);
+    }
+
+    &:active {
+      @extend %buttonActive;
+      background-color: rgb(116, 247, 116);
+    }
+  }
+
+  &.neutral {
+    &:hover {
+      background-color: rgb(253, 255, 165);
+    }
+
+    &:active {
+      @extend %buttonActive;
+      background-color: rgb(239, 250, 84);
+    }
+  }
+
+  &.bad {
+    &:hover {
+      background-color: rgb(255, 165, 165);
+    }
+
+    &:active {
+      @extend %buttonActive;
+      background-color: rgb(255, 66, 66);
+    }
+  }
+}
