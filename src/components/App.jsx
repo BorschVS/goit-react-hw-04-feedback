@@ -34,7 +34,6 @@ class App extends Component {
 
     return (
       <>
-        <h1 className="title"></h1>
         <Section title="Please leave feedback">
           <FeedbackOptions
             options={['good', 'neutral', 'bad']}
