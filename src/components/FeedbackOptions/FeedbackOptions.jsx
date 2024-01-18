@@ -1,5 +1,5 @@
 import React from 'react';
-import './FeedbackOptions.scss';
+import css from './FeedbackOptions.module.css';
 
 const FeedbackOptions = ({ options, onLeaveFeedback }) => {
   return (
@@ -8,7 +8,7 @@ const FeedbackOptions = ({ options, onLeaveFeedback }) => {
         {options.map(option => (
           <button
             key={option}
-            className={option}
+            className={`${css.button} ${css[option]}`}
             onClick={() => onLeaveFeedback(option)}
           >
             {option}

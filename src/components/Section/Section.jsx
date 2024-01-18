@@ -1,5 +1,5 @@
 import React from 'react';
-import './Section.scss';
+import './Section.module.css';
 
 const Section = ({ title, children }) => {
   return (
