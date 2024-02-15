@@ -1,62 +1,80 @@
-import React, { Component } from 'react';
+import { useReducer } from 'react';
 import Statsistics from './Statistics';
 import FeedbackOptions from './FeedbackOptions';
 import Section from './Section';
 import Notification from './Notification';
 // import '../styles/base.scss';
 
-class App extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  };
+function feedbackReducer(state, action) {
+  switch (action.type) {
+    case 'good':
+      return {
+        ...state,
+        good: state.good + 1,
+      };
 
-  handleLeaveFeedback = option => {
-    this.setState(prevState => ({
-      [option]: prevState[option] + 1,
-    }));
-  };
+    case 'neutral':
+      return {
+        ...state,
+        neutral: state.neutral + 1,
+      };
 
-  render() {
-    const { good, neutral, bad } = this.state;
-
-    const countTotalFeedback = () => {
-      return good + neutral + bad;
-    };
-
-    const countPositiveFeedbackPercentage = () => {
-      const total = countTotalFeedback();
-      return total > 0 ? Math.round((good / total) * 100) : 0;
-    };
-
-    const availableFeedback = countTotalFeedback() > 0 ? true : false;
-
-    return (
-      <>
-        <Section title="Please leave feedback">
-          <FeedbackOptions
-            options={['good', 'neutral', 'bad']}
-            onLeaveFeedback={this.handleLeaveFeedback}
-          />
-        </Section>
-
-        <Section title="Statistics">
-          {availableFeedback ? (
-            <Statsistics
-              good={good}
-              neutral={neutral}
-              bad={bad}
-              total={countTotalFeedback}
-              positivePercentage={countPositiveFeedbackPercentage}
-            />
-          ) : (
-            <Notification message="There is no feedback" />
-          )}
-        </Section>
-      </>
-    );
+    case 'bad':
+      return {
+        ...state,
+        bad: state.bad + 1,
+      };
+    default:
+      throw new Error('Invalid action');
   }
 }
 
-export default App;
+const initialState = {
+  good: 0,
+  neutral: 0,
+  bad: 0,
+};
+
+export default function App() {
+  const [state, dispatch] = useReducer(feedbackReducer, initialState);
+
+  function handleLeaveFeedback(option) {
+    dispatch({ type: option });
+  }
+
+  function countTotalFeedback() {
+    return state.good + state.neutral + state.bad;
+  }
+
+  function countPositiveFeedbackPercentage() {
+    const total = countTotalFeedback();
+    return total > 0 ? Math.round((state.good / total) * 100) : 0;
+  }
+
+  const availableFeedback = countTotalFeedback() > 0 ? true : false;
+
+  return (
+    <>
+      <Section title="Please leave feedback">
+        <FeedbackOptions
+          options={['good', 'neutral', 'bad']}
+          onLeaveFeedback={handleLeaveFeedback}
+        />
+      </Section>
+
+      <Section title="Statistics">
+        {availableFeedback ? (
+          <Statsistics
+            good={state.good}
+            neutral={state.neutral}
+            bad={state.bad}
+            total={countTotalFeedback}
+            positivePercentage={countPositiveFeedbackPercentage}
+          />
+        ) : (
+          <Notification message="There is no feedback" />
+        )}
+      </Section>
+    </>
+  );
+}
